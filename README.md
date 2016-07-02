@@ -1,1 +1,1 @@
-Simple React Timer App
+React Boiler Plate
