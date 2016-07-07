@@ -111,7 +111,7 @@
 	$(document).foundation();
 
 	// Load custom css
-	__webpack_require__(360);
+	__webpack_require__(232);
 
 	ReactDOM.render(React.createElement(TodoApp, null), document.getElementById('app'));
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
@@ -25316,7 +25316,8 @@
 	'use strict';
 
 	var React = __webpack_require__(8);
-	var TodoList = __webpack_require__(358);
+	var TodoList = __webpack_require__(229);
+	var AddTodo = __webpack_require__(231);
 
 	var TodoApp = React.createClass({
 	  displayName: 'TodoApp',
@@ -25339,6 +25340,10 @@
 	    };
 	  },
 
+	  handleAddTodo: function handleAddTodo(text) {
+	    alert('new todo: ' + text);
+	  },
+
 	  render: function render() {
 	    var todos = this.state.todos;
 
@@ -25346,7 +25351,8 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(TodoList, { todos: todos })
+	      React.createElement(TodoList, { todos: todos }),
+	      React.createElement(AddTodo, { onAddTodo: this.handleAddTodo })
 	    );
 	  }
 	});
@@ -25354,136 +25360,7 @@
 	module.exports = TodoApp;
 
 /***/ },
-/* 229 */,
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */,
-/* 246 */,
-/* 247 */,
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */,
-/* 253 */,
-/* 254 */,
-/* 255 */,
-/* 256 */,
-/* 257 */,
-/* 258 */,
-/* 259 */,
-/* 260 */,
-/* 261 */,
-/* 262 */,
-/* 263 */,
-/* 264 */,
-/* 265 */,
-/* 266 */,
-/* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */,
-/* 271 */,
-/* 272 */,
-/* 273 */,
-/* 274 */,
-/* 275 */,
-/* 276 */,
-/* 277 */,
-/* 278 */,
-/* 279 */,
-/* 280 */,
-/* 281 */,
-/* 282 */,
-/* 283 */,
-/* 284 */,
-/* 285 */,
-/* 286 */,
-/* 287 */,
-/* 288 */,
-/* 289 */,
-/* 290 */,
-/* 291 */,
-/* 292 */,
-/* 293 */,
-/* 294 */,
-/* 295 */,
-/* 296 */,
-/* 297 */,
-/* 298 */,
-/* 299 */,
-/* 300 */,
-/* 301 */,
-/* 302 */,
-/* 303 */,
-/* 304 */,
-/* 305 */,
-/* 306 */,
-/* 307 */,
-/* 308 */,
-/* 309 */,
-/* 310 */,
-/* 311 */,
-/* 312 */,
-/* 313 */,
-/* 314 */,
-/* 315 */,
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */,
-/* 322 */,
-/* 323 */,
-/* 324 */,
-/* 325 */,
-/* 326 */,
-/* 327 */,
-/* 328 */,
-/* 329 */,
-/* 330 */,
-/* 331 */,
-/* 332 */,
-/* 333 */,
-/* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */,
-/* 339 */,
-/* 340 */,
-/* 341 */,
-/* 342 */,
-/* 343 */,
-/* 344 */,
-/* 345 */,
-/* 346 */,
-/* 347 */,
-/* 348 */,
-/* 349 */,
-/* 350 */,
-/* 351 */,
-/* 352 */,
-/* 353 */,
-/* 354 */,
-/* 355 */,
-/* 356 */,
-/* 357 */,
-/* 358 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25491,7 +25368,7 @@
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 	var React = __webpack_require__(8);
-	var Todo = __webpack_require__(359);
+	var Todo = __webpack_require__(230);
 
 	var TodoList = React.createClass({
 	  displayName: 'TodoList',
@@ -25517,7 +25394,7 @@
 	module.exports = TodoList;
 
 /***/ },
-/* 359 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25545,16 +25422,59 @@
 	module.exports = Todo;
 
 /***/ },
-/* 360 */
+/* 231 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+
+	var AddTodo = React.createClass({
+	  displayName: 'AddTodo',
+
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var todoText = this.refs.todoText.value;
+
+	    if (todoText.length > 0) {
+	      this.refs.todoText.value = '';
+	      this.props.onAddTodo(todoText);
+	    } else {
+	      this.refs.todoText.focus();
+	    }
+	  },
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'form',
+	        { onSubmit: this.handleSubmit },
+	        React.createElement('input', { type: 'text', ref: 'todoText', placeholder: 'What do you need to do?' }),
+	        React.createElement(
+	          'button',
+	          { className: 'button expanded' },
+	          'Add Todo'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = AddTodo;
+
+/***/ },
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(361);
+	var content = __webpack_require__(233);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(363)(content, {});
+	var update = __webpack_require__(235)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -25571,10 +25491,10 @@
 	}
 
 /***/ },
-/* 361 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(362)();
+	exports = module.exports = __webpack_require__(234)();
 	// imports
 
 
@@ -25585,7 +25505,7 @@
 
 
 /***/ },
-/* 362 */
+/* 234 */
 /***/ function(module, exports) {
 
 	/*
@@ -25641,7 +25561,7 @@
 
 
 /***/ },
-/* 363 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
