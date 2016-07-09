@@ -1,8 +1,8 @@
 {
-  "name": "reacttimeapp",
+  "name": "reacttodoapp",
   "version": "1.0.0",
   "private": true,
-  "description": "React Time App",
+  "description": "React Todo App",
   "main": "index.js",
   "scripts": {
     "test": "karma start",
