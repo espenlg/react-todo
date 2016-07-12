@@ -28,7 +28,7 @@ export var todosReducer = (state = [], action) => {
           id: uuid(),
           text: action.text,
           completed: false,
-          createdAt: moment().unix,
+          createdAt: moment().unix(),
           completedAt: undefined
         }
       ];
@@ -41,6 +41,8 @@ export var todosReducer = (state = [], action) => {
             completed: nextCompleted,
             completedAt: nextCompleted ? moment().unix() : undefined
           };
+        } else {
+          return todo;
         }
       });
 
