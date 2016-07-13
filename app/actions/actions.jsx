@@ -1,3 +1,7 @@
+import moment from 'moment';
+
+import fasebase, {firebaseRef} from 'app/firebase/';
+
 export var setSearchText = (searchText) => {
   return {
     type: 'SET_SEARCH_TEXT',
@@ -5,10 +9,35 @@ export var setSearchText = (searchText) => {
   };
 };
 
-export var addTodo = (text) => {
+export var toggleShowCompleted = () => {
+  return {
+    type: 'TOGGLE_SHOW_COMPLETED'
+  };
+};
+
+export var addTodo = (todo) => {
   return {
     type: 'ADD_TODO',
-    text
+    todo
+  };
+};
+
+export var startAddTodo = (text) => {
+  return (dispatch, getState) => {
+    var todo = {
+      text,
+      completed: false,
+      createdAt: moment().unix(),
+      completedAt: null
+    };
+    var todoRef = firebaseRef.child('todos').push(todo);
+
+    return todoRef.then(() => {
+      dispatch(addTodo({
+        ...todo,
+        id: todoRef.key
+      }));
+    });
   };
 };
 
@@ -19,11 +48,6 @@ export var addTodos = (todos) => {
   };
 };
 
-export var toggleShowCompleted = () => {
-  return {
-    type: 'TOGGLE_SHOW_COMPLETED'
-  };
-};
 
 export var toggleTodo = (id) => {
   return {
