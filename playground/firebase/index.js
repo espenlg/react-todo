@@ -14,22 +14,19 @@ var firebaseRef = firebase.database().ref();
 firebaseRef.child('todos').once('value').then((snapshot) => {
   var todos = {};
   var keys = Object.keys(snapshot.val());
-
-//  console.log(keys);
   for (var key in keys) {
     var todosRef = firebaseRef.child('todos');
     todosRef.child(keys[key]).once('value').then((todo) => {
-      todos.push([{
+      todos = {
+        ...todos,
+        {
           id: keys[key],
           text: todo.val().text,
           completed: todo.val().completed,
           createdAt: todo.val().createdAt
-        }]
-      );
-//      console.log(todo.val());
+        }
+      }
     });
-
-//    console.log(snapshot.val()[key].text);
   };
   console.log(todos);
 
