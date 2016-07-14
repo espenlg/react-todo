@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import fasebase, {firebaseRef} from 'app/firebase/';
+import fasebase, {firebaseRef, githubProvider} from 'app/firebase/';
 
 export var setSearchText = (searchText) => {
   return {
@@ -54,7 +54,7 @@ export var startAddTodos = (todos) => {
     return todosRef.once('value').then((snapshot) => {
       var todos = snapshot.val() || {};
       var parsedTodos = [];
-      
+
       Object.keys(todos).forEach((todoId) => {
         parsedTodos.push({
           id: todoId,
@@ -84,6 +84,24 @@ export var startToggleTodo = (id, completed) => {
     };
     return todoRef.update(updates).then(() => {
       dispatch(updateTodo(id, updates));
+    });
+  };
+};
+
+export var startLogin = () => {
+  return (dispatch, getState) => {
+    return firebase.auth().signInWithPopup(githubProvider).then((result) => {
+      console.log('Auth worked!', result);
+    }, (error) => {
+      console.log('Unable to auth', error);
+    });
+  };
+};
+
+export var startLogout = () => {
+  return (dispatch, getState) => {
+    return firebase.auth().signOut().then(() => {
+      console.log('Logged out');
     });
   };
 };
