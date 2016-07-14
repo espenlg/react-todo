@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+var firebase = require('firebase');
 
 var config = {
     apiKey: "AIzaSyAMugWTv6BC4m2H2Oi6foTYKkBHGpcf-5I",
@@ -11,26 +11,53 @@ firebase.initializeApp(config);
 
 var firebaseRef = firebase.database().ref();
 
-firebaseRef.set({
-  app: {
-    name: 'Todo App',
-    version: '1.0.0'
-  },
-  isRunning: true,
-  user: {
-    name: 'Espen',
-    age: 40
-  }
+firebaseRef.child('todos').once('value').then((snapshot) => {
+  var todos = {};
+  var keys = Object.keys(snapshot.val());
+
+//  console.log(keys);
+  for (var key in keys) {
+    var todosRef = firebaseRef.child('todos');
+    todosRef.child(keys[key]).once('value').then((todo) => {
+      todos.push([{
+          id: keys[key],
+          text: todo.val().text,
+          completed: todo.val().completed,
+          createdAt: todo.val().createdAt
+        }]
+      );
+//      console.log(todo.val());
+    });
+
+//    console.log(snapshot.val()[key].text);
+  };
+  console.log(todos);
+
+//  console.log(snapshot.val());
+}, (e) => {
+  console.log('Unable to fetch value', e);
 });
 
-var todosRef = firebaseRef.child('todos');
-
-todosRef.on('child_added', (snapshot) => {
-  console.log('child_added', snapshot.key, snapshot.val());
-});
-
-todosRef.push({title: 'Walk the dog'});
-todosRef.push({title: 'Walk the cat'});
+// firebaseRef.set({
+//   app: {
+//     name: 'Todo App',
+//     version: '1.0.0'
+//   },
+//   isRunning: true,
+//   user: {
+//     name: 'Espen',
+//     age: 40
+//   }
+// });
+//
+// var todosRef = firebaseRef.child('todos');
+//
+// todosRef.on('child_added', (snapshot) => {
+//   console.log('child_added', snapshot.key, snapshot.val());
+// });
+//
+// todosRef.push({title: 'Walk the dog'});
+// todosRef.push({title: 'Walk the cat'});
 
 // var notesRef = firebaseRef.child('notes');
 //
